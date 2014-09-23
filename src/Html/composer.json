@@ -19,5 +19,10 @@
 		"psr-4": {
 			"Windwalker\\Html\\": ""
 		}
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "2.0-dev"
+		}
 	}
 }

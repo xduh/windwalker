@@ -20,5 +20,10 @@
 		"psr-4": {
 			"Windwalker\\IO\\": ""
 		}
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "2.0-dev"
+		}
 	}
 }

@@ -16,5 +16,10 @@
 		"psr-4": {
 			"Windwalker\\Dom\\": ""
 		}
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "2.0-dev"
+		}
 	}
 }

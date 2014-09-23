@@ -40,7 +40,7 @@ use Windwalker\IO\Filter\NullFilter;
  *
  * @since {DEPLOY_VERSION}
  */
-class Input
+class Input implements \Serializable, \Countable
 {
 	/**
 	 * Filter object to use.

@@ -12,7 +12,6 @@
 	],
 	"require": {
 		"joomla/database" : "~1.0@stable",
-		"joomla/uri" : "~1.0@stable",
 		"psr/log" : "1.*@stable"
 	},
 	"require-dev": {

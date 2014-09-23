@@ -11,6 +11,9 @@
 	"require-dev": {
 		"windwalker/test" : "dev-master"
 	},
+	"replace": {
+		"windwalker/test": "self.version"
+	},
 	"minimum-stability" : "dev",
 	"autoload": {
 		"psr-4": {

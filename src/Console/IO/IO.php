@@ -16,7 +16,7 @@ use Windwalker\IO\Cli\Output\ColorfulOutputInterface;
 
 if (!interface_exists('JsonSerializable'))
 {
-	include_once __DIR__ . '/Compat/JsonSerializable.php';
+	include_once __DIR__ . '/../Compat/JsonSerializable.php';
 }
 
 /**

@@ -10,7 +10,8 @@
 		"windwalker/io" : "dev-master",
 		"windwalker/registry" : "dev-master",
 		"windwalker/environment" : "dev-master",
-		"joomla/uri" : "~1.0@stable"
+		"joomla/uri" : "~1.0@stable",
+		"psr/log" : "1.*@stable"
 	},
 	"require-dev": {
 		"windwalker/test": "dev-master"

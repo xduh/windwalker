@@ -8,7 +8,7 @@
 
 namespace Windwalker\Event;
 
-use Windwalker\Event\Event\EventInterface;
+use Windwalker\Event\EventInterface;
 
 /**
  * Interface DispatcherInterface

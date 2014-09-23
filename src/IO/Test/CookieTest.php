@@ -47,11 +47,11 @@ class CookieTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Joomla\IO\Cookie::__construct method.
+	 * Test the Windwalker\IO\Cookie::__construct method.
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\IO\Cookie::__construct
+	 * @covers  Windwalker\IO\Cookie::__construct
 	 * @since   1.1.4
 	 */
 	public function test__construct()
@@ -66,11 +66,11 @@ class CookieTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Joomla\IO\Cookie::set method.
+	 * Test the Windwalker\IO\Cookie::set method.
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\IO\Cookie::set
+	 * @covers  Windwalker\IO\Cookie::set
 	 * @since   1.0
 	 */
 	public function testSet()

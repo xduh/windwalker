@@ -8,9 +8,9 @@
 
 namespace Windwalker\Event;
 
-use Windwalker\Event\Event\Event;
-use Windwalker\Event\Event\EventInterface;
-use Windwalker\Event\Listener\ListenersQueue;
+use Windwalker\Event\Event;
+use Windwalker\Event\EventInterface;
+use Windwalker\Event\ListenersQueue;
 
 /**
  * The Dispatcher class.

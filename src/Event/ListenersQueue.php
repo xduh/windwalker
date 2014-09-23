@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later;
  */
 
-namespace Windwalker\Event\Listener;
+namespace Windwalker\Event;
 
 /**
  * Class ListenerPriorityQueue
@@ -72,7 +72,7 @@ class ListenersQueue implements \IteratorAggregate, \Countable
 	 * @param   \Closure|object  $listener  The listener.
 	 * @param   integer          $priority  The listener priority.
 	 *
-	 * @return  ListenersPriorityQueue  This method is chainable.
+	 * @return  ListenersQueue  This method is chainable.
 	 *
 	 * @since   {DEPLOY_VERSION}
 	 */
@@ -95,7 +95,7 @@ class ListenersQueue implements \IteratorAggregate, \Countable
 	 *
 	 * @param   \Closure|object  $listener  The listener.
 	 *
-	 * @return  ListenersPriorityQueue  This method is chainable.
+	 * @return  ListenersQueue  This method is chainable.
 	 *
 	 * @since   {DEPLOY_VERSION}
 	 */
@@ -206,4 +206,3 @@ class ListenersQueue implements \IteratorAggregate, \Countable
 		return count($this->queue);
 	}
 }
-

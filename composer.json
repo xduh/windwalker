@@ -24,7 +24,8 @@
 		"illuminate/view" : "4.1.*",
 		"mustache/mustache": "2.*",
 
-		"joomla/session" : "1.*"
+		"joomla/session" : "1.*",
+		"joomla/event" : "1.*@stable"
 	},
 	"suggest": {
 		"symfony/yaml": "Install 2.* if you require YAML support."

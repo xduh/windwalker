@@ -232,7 +232,7 @@ class DataMapper extends AbstractDataMapper
 	/**
 	 * Get DB adapter.
 	 *
-	 * @return  \Joomla\Database\DatabaseDriver Db adapter.
+	 * @return  \Windwalker\Database\DatabaseDriver Db adapter.
 	 */
 	public function getDb()
 	{
@@ -242,7 +242,7 @@ class DataMapper extends AbstractDataMapper
 	/**
 	 * Set db adapter.
 	 *
-	 * @param   \Joomla\Database\DatabaseDriver $db Db adapter.
+	 * @param   \Windwalker\Database\DatabaseDriver $db Db adapter.
 	 *
 	 * @return  DataMapper  Return self to support chaining.
 	 */

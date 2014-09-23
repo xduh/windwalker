@@ -12,7 +12,10 @@
 	},
 	"require-dev": {
 		"windwalker/test": "dev-master",
-		"windwalker/filesystem" : "dev-master"
+		"windwalker/filesystem" : "dev-master",
+		"twig/twig" : "*",
+		"illuminate/view" : "4.1.*",
+		"mustache/mustache": "2.*"
 	},
 	"suggest" : {
 		"illuminate/view" : "Install 4.1.*(PHP 5.3) or 4.2.*(PHP 5.4) if you require Laravel Blade engine.",

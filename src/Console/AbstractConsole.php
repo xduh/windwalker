@@ -8,8 +8,6 @@
 
 namespace Windwalker\Console;
 
-use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
 use Windwalker\Console\IO\IO;
 use Windwalker\Console\IO\IOInterface;
 use Windwalker\Registry\Registry;
@@ -27,13 +25,6 @@ abstract class AbstractConsole
 	 * @var  IOInterface
 	 */
 	public $io = null;
-
-	/**
-	 * Property logger.
-	 *
-	 * @var LoggerInterface
-	 */
-	protected $logger = null;
 
 	/**
 	 * Property config.
@@ -182,24 +173,6 @@ abstract class AbstractConsole
 	}
 
 	/**
-	 * Get the logger.
-	 *
-	 * @return  LoggerInterface
-	 *
-	 * @since   {DEPLOY_VERSION}
-	 */
-	public function getLogger()
-	{
-		// If a logger hasn't been set, use NullLogger
-		if (! ($this->logger instanceof LoggerInterface))
-		{
-			$this->logger = new NullLogger;
-		}
-
-		return $this->logger;
-	}
-
-	/**
 	 * Custom initialisation method.
 	 *
 	 * Called at the end of the static::__construct method.
@@ -246,21 +219,4 @@ abstract class AbstractConsole
 
 		return $this;
 	}
-
-	/**
-	 * Set the logger.
-	 *
-	 * @param   LoggerInterface  $logger  The logger.
-	 *
-	 * @return  static  Returns itself to support chaining.
-	 *
-	 * @since   {DEPLOY_VERSION}
-	 */
-	public function setLogger(LoggerInterface $logger)
-	{
-		$this->logger = $logger;
-
-		return $this;
-	}
 }
- 

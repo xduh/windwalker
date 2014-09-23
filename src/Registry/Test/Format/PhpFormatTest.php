@@ -8,7 +8,7 @@
 
 namespace Windwalker\Registry\Test\Format;
 
-use Windwalker\Language\Format\PhpFormat;
+use Windwalker\Registry\Format\PhpFormat;
 
 /**
  * Test class of PhpFormat

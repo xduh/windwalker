@@ -10,7 +10,7 @@ namespace Windwalker\Application;
 
 use Windwalker\Environment\Web\WebClient;
 use Windwalker\IO\Input;
-use Joomla\Uri\Uri;
+use Windwalker\Uri\Uri;
 use Windwalker\Application\Helper\ApplicationHelper;
 use Windwalker\Application\Web\Response;
 use Windwalker\Application\Web\WebEnvironment;

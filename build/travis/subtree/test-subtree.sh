@@ -1,6 +1,6 @@
 #!/bin/sh
 
-sh build/travis/subtree/dotest.sh Application
+#sh build/travis/subtree/dotest.sh Application
 sh build/travis/subtree/dotest.sh Cache
 sh build/travis/subtree/dotest.sh Compare
 sh build/travis/subtree/dotest.sh Console

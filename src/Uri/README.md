@@ -20,12 +20,12 @@ You can use the `Uri` class a number of different ways when dealing with Uris. I
 
 ## Installation via Composer
 
-Add `"windwalker/uri": "dev-master"` to the require block in your composer.json, make sure you have `"minimum-stability": "dev"` and then run `composer install`.
+Add `"windwalker/uri": "~2.0"` to the require block in your composer.json, make sure you have `"minimum-stability": "dev"` and then run `composer install`.
 
 ```json
 {
 	"require": {
-		"windwalker/uri": "dev-master"
+		"windwalker/uri": "~2.0"
 	},
 	"minimum-stability": "dev"
 }

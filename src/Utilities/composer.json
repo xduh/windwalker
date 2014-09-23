@@ -7,10 +7,10 @@
 	"license": "GPL-2.0+",
 	"require": {
 		"php": ">=5.3.10",
-		"windwalker/string" : "dev-master"
+		"windwalker/string" : "~2.0"
 	},
 	"require-dev": {
-		"windwalker/test" : "dev-master"
+		"windwalker/test" : "~2.0"
 	},
 	"minimum-stability" : "dev",
 	"autoload": {
@@ -23,7 +23,7 @@
 	},
 	"extra": {
 		"branch-alias": {
-			"dev-master": "2.0-dev"
+			"~2.0": "2.0-dev"
 		}
 	}
 }

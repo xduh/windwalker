@@ -7,12 +7,12 @@
 	"license": "GPL-2.0+",
 	"require": {
 		"php": ">=5.3.10",
-		"windwalker/registry" : "dev-master",
-		"windwalker/data" : "dev-master"
+		"windwalker/registry" : "~2.0",
+		"windwalker/data" : "~2.0"
 	},
 	"require-dev": {
-		"windwalker/test": "dev-master",
-		"windwalker/filesystem" : "dev-master",
+		"windwalker/test": "~2.0",
+		"windwalker/filesystem" : "~2.0",
 		"twig/twig" : "*",
 		"illuminate/view" : "4.1.*",
 		"mustache/mustache": "2.*"
@@ -30,7 +30,7 @@
 	},
 	"extra": {
 		"branch-alias": {
-			"dev-master": "2.0-dev"
+			"~2.0": "2.0-dev"
 		}
 	}
 }

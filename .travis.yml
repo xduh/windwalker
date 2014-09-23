@@ -1,7 +1,7 @@
 language: php
 
 php:
-  # - 5.3
+  - 5.3
   - 5.4
   - 5.5
   - 5.6
@@ -10,10 +10,10 @@ services:
   - memcached # will start memcached
 
 before_install:
-  - composer self-update
+#  - composer self-update
   - sh -e build/travis/scripts/apt-get.sh
-  - sh -e build/travis/scripts/apache2-vhost.sh
-  - sh -e build/travis/scripts/apache2-configure.sh
+#  - sh -e build/travis/scripts/apache2-vhost.sh
+#  - sh -e build/travis/scripts/apache2-configure.sh
 
 before_script:
   - composer update --dev
@@ -26,5 +26,5 @@ before_script:
 
 script:
   - phpunit --configuration phpunit.travis.xml
-  - chmod +x build/travis/subtree/*
-  - sh -e build/travis/subtree/test-subtree.sh
+#  - chmod +x build/travis/subtree/*
+#  - sh -e build/travis/subtree/test-subtree.sh

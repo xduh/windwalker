@@ -6,10 +6,10 @@
 	"homepage": "https://github.com/ventoviro/windwalker-test",
 	"license": "GPL-2.0+",
 	"require": {
-		"php": ">=5.3.10"
+		"php": ">=5.3.10",
+		"windwalker/environment" : "~2.0"
 	},
 	"require-dev": {
-		"windwalker/environment" : "~2.0"
 	},
 	"minimum-stability" : "dev",
 	"autoload": {
@@ -19,7 +19,7 @@
 	},
 	"extra": {
 		"branch-alias": {
-			"~2.0": "2.0-dev"
+			"dev-master": "2.0-dev"
 		}
 	}
 }

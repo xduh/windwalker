@@ -77,5 +77,19 @@ abstract class AbstractLoader
 
 		return $path;
 	}
+
+	/**
+	 * If a file exists, require it from the file system.
+	 *
+	 * @param string $file The file to require.
+	 *
+	 * @return static
+	 */
+	protected function requireFile($file)
+	{
+		require $file;
+
+		return $this;
+	}
 }
 

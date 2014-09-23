@@ -156,5 +156,77 @@ class ClassLoader
 
 		return $this;
 	}
+
+	/**
+	 * Method to get property Psr0
+	 *
+	 * @return  Psr0Loader
+	 */
+	public function getPsr0Loader()
+	{
+		return $this->psr0;
+	}
+
+	/**
+	 * Method to set property psr0
+	 *
+	 * @param   Psr0Loader $psr0
+	 *
+	 * @return  static  Return self to support chaining.
+	 */
+	public function setPsr0Loader($psr0)
+	{
+		$this->psr0 = $psr0;
+
+		return $this;
+	}
+
+	/**
+	 * Method to get property Psr4
+	 *
+	 * @return  Psr4Loader
+	 */
+	public function getPsr4Loader()
+	{
+		return $this->psr4;
+	}
+
+	/**
+	 * Method to set property psr4
+	 *
+	 * @param   Psr4Loader $psr4
+	 *
+	 * @return  static  Return self to support chaining.
+	 */
+	public function setPsr4Loader($psr4)
+	{
+		$this->psr4 = $psr4;
+
+		return $this;
+	}
+
+	/**
+	 * Method to get property Files
+	 *
+	 * @return  FileMappingLoader
+	 */
+	public function getFilesLoader()
+	{
+		return $this->files;
+	}
+
+	/**
+	 * Method to set property files
+	 *
+	 * @param   FileMappingLoader $files
+	 *
+	 * @return  static  Return self to support chaining.
+	 */
+	public function setFilesLoader($files)
+	{
+		$this->files = $files;
+
+		return $this;
+	}
 }
 

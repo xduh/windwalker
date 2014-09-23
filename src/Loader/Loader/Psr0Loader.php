@@ -60,10 +60,10 @@ class Psr0Loader extends AbstractLoader
 	 */
 	public function addNamespace($prefix, $path)
 	{
-		// normalize namespace prefix
+		// Normalize namespace prefix
 		$prefix = trim($prefix, '\\');
 
-		// normalize the base directory with a trailing separator
+		// Normalize the base directory with a trailing separator
 		$path = rtrim($path, '/') . DIRECTORY_SEPARATOR;
 		$path = rtrim($path, DIRECTORY_SEPARATOR);
 
@@ -131,7 +131,7 @@ class Psr0Loader extends AbstractLoader
 	{
 		foreach ($this->namespaces as $namespace => $path)
 		{
-			if (null === $namespace || $namespace . $this->namespaceSeparator === substr($className, 0, strlen($namespace . $this->namespaceSeparator)))
+			if (null === $namespace || $namespace === substr($className, 0, strlen($namespace)))
 			{
 				$fileName  = '';
 				$namespace = '';
@@ -145,7 +145,7 @@ class Psr0Loader extends AbstractLoader
 
 				$fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . $this->fileExtension;
 
-				require ($path !== null ? $path . DIRECTORY_SEPARATOR : '') . $fileName;
+				$this->requireFile(($path !== null ? $path . DIRECTORY_SEPARATOR : '') . $fileName);
 
 				break;
 			}
@@ -154,4 +154,3 @@ class Psr0Loader extends AbstractLoader
 		return $this;
 	}
 }
-

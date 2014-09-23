@@ -40,20 +40,20 @@ class Psr4Loader extends AbstractLoader
 	 */
 	public function addNamespace($prefix, $base_dir, $prepend = false)
 	{
-		// normalize namespace prefix
+		// Normalize namespace prefix
 		$prefix = trim($prefix, '\\') . '\\';
 
-		// normalize the base directory with a trailing separator
+		// Normalize the base directory with a trailing separator
 		$base_dir = rtrim($base_dir, '/') . DIRECTORY_SEPARATOR;
 		$base_dir = rtrim($base_dir, DIRECTORY_SEPARATOR) . '/';
 
-		// initialize the namespace prefix array
+		// Initialize the namespace prefix array
 		if (isset($this->prefixes[$prefix]) === false)
 		{
 			$this->prefixes[$prefix] = array();
 		}
 
-		// retain the base directory for the namespace prefix
+		// Retain the base directory for the namespace prefix
 		if ($prepend)
 		{
 			array_unshift($this->prefixes[$prefix], $base_dir);
@@ -75,28 +75,28 @@ class Psr4Loader extends AbstractLoader
 	 */
 	public function loadClass($class)
 	{
-		// the current namespace prefix
+		// The current namespace prefix
 		$prefix = $class;
 
-		// work backwards through the namespace names of the fully-qualified
+		// Work backwards through the namespace names of the fully-qualified
 		// class name to find a mapped file name
 		while (false !== $pos = strrpos($prefix, '\\'))
 		{
-			// retain the trailing namespace separator in the prefix
+			// Retain the trailing namespace separator in the prefix
 			$prefix = substr($class, 0, $pos + 1);
 
-			// the rest is the relative class name
-			$relative_class = substr($class, $pos + 1);
+			// The rest is the relative class name
+			$relativeClass = substr($class, $pos + 1);
 
-			// try to load a mapped file for the prefix and relative class
-			$mapped_file = $this->loadMappedFile($prefix, $relative_class);
+			// Try to load a mapped file for the prefix and relative class
+			$mappedFile = $this->loadMappedFile($prefix, $relativeClass);
 
-			if ($mapped_file)
+			if ($mappedFile)
 			{
-				return $mapped_file;
+				return $mappedFile;
 			}
 
-			// remove the trailing namespace separator for the next iteration
+			// Remove the trailing namespace separator for the next iteration
 			// of strrpos()
 			$prefix = rtrim($prefix, '\\');
 		}
@@ -114,45 +114,26 @@ class Psr4Loader extends AbstractLoader
 	 */
 	protected function loadMappedFile($prefix, $relative_class)
 	{
-		// are there any base directories for this namespace prefix?
+		// Are there any base directories for this namespace prefix?
 		if (isset($this->prefixes[$prefix]) === false)
 		{
 			return false;
 		}
 
-		// look through base directories for this namespace prefix
+		// Look through base directories for this namespace prefix
 		foreach ($this->prefixes[$prefix] as $base_dir)
 		{
-			// replace namespace separators with directory separators
+			// Replace namespace separators with directory separators
 			// in the relative class name, append with .php
 			$file = $base_dir
 				. str_replace('\\', DIRECTORY_SEPARATOR, $relative_class)
 				. '.php';
 
-			// if the mapped file exists, require it
+			// If the mapped file exists, require it
 			$this->requireFile($file);
 		}
 
 		return $this;
-	}
-
-	/**
-	 * If a file exists, require it from the file system.
-	 *
-	 * @param string $file The file to require.
-	 *
-	 * @return bool True if the file exists, false if not.
-	 */
-	protected function requireFile($file)
-	{
-		if (file_exists($file))
-		{
-			require $file;
-
-			return true;
-		}
-
-		return false;
 	}
 }
 

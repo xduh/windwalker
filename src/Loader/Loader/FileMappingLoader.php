@@ -54,7 +54,7 @@ class FileMappingLoader extends AbstractLoader
 		{
 			if (strtolower($name) == strtolower($className))
 			{
-				require $this->maps[$name];
+				$this->requireFile($this->maps[$name]);
 
 				break;
 			}

@@ -58,6 +58,8 @@ if (!function_exists('show'))
 			$args[] = $last;
 		}
 
+		echo "\n\n";
+
 		if (PHP_SAPI != 'cli')
 		{
 			echo '<pre>';

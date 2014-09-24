@@ -300,7 +300,7 @@ class Language implements LanguageInterface
 	{
 		if (empty($this->loaders[$name]) || !($this->loaders[$name] instanceof LoaderInterface))
 		{
-			$class = sprintf('Windwalker\\Language\\Loader\\%sLoader', $name);
+			$class = sprintf('Windwalker\\Language\\Loader\\%sLoader', ucfirst($name));
 
 			if (!class_exists($class))
 			{

@@ -123,6 +123,8 @@ class Input implements \Serializable, \Countable
 			return $this->inputs[$name];
 		}
 
+		$filter = ($this->filter instanceof NullFilter) ? null : $this->filter;
+
 		$className = __NAMESPACE__ . '\\' . ucfirst($name) . 'Input';
 
 		if (!class_exists($className))
@@ -132,7 +134,7 @@ class Input implements \Serializable, \Countable
 
 		if (class_exists($className))
 		{
-			$this->inputs[$name] = new $className(null, $this->filter);
+			$this->inputs[$name] = new $className(null, $filter);
 
 			return $this->inputs[$name];
 		}
@@ -141,7 +143,7 @@ class Input implements \Serializable, \Countable
 
 		if (isset($GLOBALS[$superGlobal]))
 		{
-			$this->inputs[$name] = new Input($GLOBALS[$superGlobal], $this->filter);
+			$this->inputs[$name] = new Input($GLOBALS[$superGlobal], $filter);
 
 			return $this->inputs[$name];
 		}
@@ -413,7 +415,7 @@ class Input implements \Serializable, \Countable
 		// Unserialize the data, and inputs.
 		list($this->data, $this->inputs) = unserialize($input);
 
-		$this->filter = new InputFilter;
+		$this->filter = class_exists('Windwalker\\Filter\\InputFilter') ? new InputFilter : new NullFilter;
 	}
 
 	/**

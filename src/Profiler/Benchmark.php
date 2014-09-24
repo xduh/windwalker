@@ -19,6 +19,9 @@ class Benchmark
 	const MILLI_SECOND = 1000;
 	const MICRO_SECOND = 1000000;
 
+	const SORT_ASC = 'asc';
+	const SORT_DESC = 'desc';
+
 	/**
 	 * Property profiler.
 	 *
@@ -163,7 +166,7 @@ class Benchmark
 	/**
 	 * Method to get property Results
 	 *
-	 * @param string $sort
+	 * @param string $sort Null, desc or asc.
 	 *
 	 * @return  array
 	 */
@@ -173,7 +176,7 @@ class Benchmark
 
 		if ($sort)
 		{
-			(strtolower($sort) == 'desc') ? arsort($results) : asort($results);
+			(strtolower($sort) == static::SORT_DESC) ? arsort($results) : asort($results);
 		}
 
 		return $results;
@@ -247,11 +250,35 @@ class Benchmark
 
 		foreach ($this->getResults($sort) as $name => $result)
 		{
-			$output[] = $this->renderResult($name, $round);
+			$output[] = $this->renderOne($name, $round);
 		}
 
 		$separator = $html ? "<br />\n" : "\n";
 
 		return implode($output, $separator);
+	}
+
+	/**
+	 * Method to get property Times
+	 *
+	 * @return  int
+	 */
+	public function getTimes()
+	{
+		return $this->times;
+	}
+
+	/**
+	 * Method to set property times
+	 *
+	 * @param   int $times
+	 *
+	 * @return  static  Return self to support chaining.
+	 */
+	public function setTimes($times)
+	{
+		$this->times = $times;
+
+		return $this;
 	}
 }

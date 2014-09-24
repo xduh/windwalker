@@ -26,7 +26,7 @@ class DefaultRenderer implements ProfilerRendererInterface
 	 */
 	public function render(ProfilerInterface $profiler)
 	{
-		$render = '';
+		$render = array();
 
 		/** @var \Windwalker\Profiler\Point\ProfilerPointInterface $lastPoint **/
 		$lastPoint = null;
@@ -45,7 +45,7 @@ class DefaultRenderer implements ProfilerRendererInterface
 				$tmpl = '<code>' . $tmpl . '</code>';
 			}
 
-			$render .= sprintf(
+			$render[] = sprintf(
 				$tmpl,
 				$profiler->getName(),
 				$point->getTime(),
@@ -56,10 +56,12 @@ class DefaultRenderer implements ProfilerRendererInterface
 				$point->getName()
 			);
 
-			$render .= (PHP_SAPI == 'cli') ? "\n" : '<br />';
-
 			$lastPoint = $point;
 		}
+
+		$glue = (PHP_SAPI == 'cli') ? "\n" : '<br />';
+
+		$render = implode($glue, $render);
 
 		return $render;
 	}

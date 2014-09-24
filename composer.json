@@ -19,6 +19,7 @@
 		"phpunit/dbunit": "1.*",
 		"phpunit/phpunit-skeleton-generator": "dev-windwalker-tmpl",
 		"jdorn/sql-formatter" : "1.*",
+		"symfony/yaml" : "2.*@stable",
 
 		"twig/twig" : "*",
 		"illuminate/view" : "4.1.*",

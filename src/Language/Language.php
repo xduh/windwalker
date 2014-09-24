@@ -135,11 +135,11 @@ class Language implements LanguageInterface
 	 */
 	public function translate($key)
 	{
-		$key = $this->normalize($key);
+		$normalizeKey = $this->normalize($key);
 
-		if ($this->exists($key, false))
+		if ($this->exists($normalizeKey, false))
 		{
-			$string = $this->strings[$key];
+			$string = $this->strings[$normalizeKey];
 
 			// In debug mode, we notice user this is a translated string.
 			if ($this->debug)
@@ -148,9 +148,9 @@ class Language implements LanguageInterface
 			}
 
 			// Store used keys
-			if (!in_array($key, $this->used))
+			if (!in_array($normalizeKey, $this->used))
 			{
-				$this->used[] = $key;
+				$this->used[] = $normalizeKey;
 			}
 
 			return $string;
@@ -159,7 +159,7 @@ class Language implements LanguageInterface
 		// In debug mode, we notice user this is a translating string but not found.
 		if ($this->debug)
 		{
-			$this->orphans[] = $key;
+			$this->orphans[] = $normalizeKey;
 
 			$key = '??' . $key . '??';
 		}
@@ -457,7 +457,7 @@ class Language implements LanguageInterface
 	 */
 	public function setLocale($locale)
 	{
-		$this->locale = $locale;
+		$this->locale = LanguageNormalize::toLanguageTag($locale);
 
 		$this->localise = null;
 
@@ -487,7 +487,7 @@ class Language implements LanguageInterface
 	{
 		if (!($this->localise instanceof LocaliseInterface))
 		{
-			$tag = $this->normalize($this->locale);
+			$tag = LanguageNormalize::getLocaliseClassPrefix($this->locale);
 
 			$class = sprintf('Windwalker\\Language\\Localise\\%sLocalise', $tag);
 

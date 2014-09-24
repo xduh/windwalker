@@ -72,7 +72,7 @@ class Build extends AbstractCliApplication
 		'form'       => 'Form',
 		'html'       => 'Html',
 		'io'         => 'IO',
-		// 'language'   => 'Language',
+		'language'   => 'Language',
 		'loader'     => 'Loader',
 		'middleware' => 'Middleware',
 		'model'      => 'Model',

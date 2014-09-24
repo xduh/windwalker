@@ -519,7 +519,7 @@ class Language implements LanguageInterface
 			throw new \UnexpectedValueException('Normalize handler is not callable.');
 		}
 
-		return $handler($string);
+		return call_user_func($handler, $string);
 	}
 
 	/**

@@ -1,6 +1,6 @@
 ![windwalker-logo-500](https://cloud.githubusercontent.com/assets/1639206/2870854/176b987a-d2e4-11e3-8be6-9f70304a8499.png)
 
-# Windwalker Framework   [![Analytics](https://ga-beacon.appspot.com/UA-48372917-1/remoteimage/readme)](https://github.com/igrigorik/ga-beacon)
+# Windwalker Framework   [![Analytics](https://ga-beacon.appspot.com/UA-48372917-1/windwalker/readme)](https://github.com/igrigorik/ga-beacon)
 
 [![Build Status](https://travis-ci.org/ventoviro/windwalker.svg?branch=staging)](https://travis-ci.org/ventoviro/windwalker) [![Latest Stable Version](https://poser.pugx.org/windwalker/framework/version.svg)](https://packagist.org/packages/windwalker/framework) [![Latest Unstable Version](https://poser.pugx.org/windwalker/framework/v/unstable.svg)](//packagist.org/packages/windwalker/framework) [![Total Downloads](https://poser.pugx.org/windwalker/framework/downloads.svg)](https://packagist.org/packages/windwalker/framework) [![License](https://poser.pugx.org/windwalker/framework/license.svg)](https://packagist.org/packages/windwalker/framework)
 

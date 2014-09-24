@@ -28,33 +28,39 @@ class DefaultRenderer implements ProfilerRendererInterface
 	{
 		$render = '';
 
-		/** @var \Windwalker\Profiler\Item\ProfilerItemInterface $lastItem **/
-		$lastItem = null;
+		/** @var \Windwalker\Profiler\Point\ProfilerPointInterface $lastPoint **/
+		$lastPoint = null;
 
-		$items = $profiler->getItems();
+		$points = $profiler->getPoints();
 
-		foreach ($items as $item)
+		foreach ($points as $point)
 		{
-			$previousTime = $lastItem ? $lastItem->getTiming() : 0.0;
-			$previousMem = $lastItem ? $lastItem->getMemory(true) : 0;
+			$previousTime = $lastPoint ? $lastPoint->getTime() : 0.0;
+			$previousMem = $lastPoint ? $lastPoint->getMemory(true) : 0;
+
+			$tmpl = '%s %.3f seconds (+%.3f); %0.2f MB (%s%0.3f) - %s';
+
+			if (PHP_SAPI != 'cli')
+			{
+				$tmpl = '<code>' . $tmpl . '</code>';
+			}
 
 			$render .= sprintf(
-				'<code>%s %.3f seconds (+%.3f); %0.2f MB (%s%0.3f) - %s</code>',
+				$tmpl,
 				$profiler->getName(),
-				$item->getTiming(),
-				$item->getTiming() - $previousTime,
-				$item->getMemory(true),
-				($item->getMemory(true) > $previousMem) ? '+' : '',
-				$item->getMemory(true) - $previousMem,
-				$item->getName()
+				$point->getTime(),
+				$point->getTime() - $previousTime,
+				$point->getMemory(true),
+				($point->getMemory(true) > $previousMem) ? '+' : '',
+				$point->getMemory(true) - $previousMem,
+				$point->getName()
 			);
 
-			$render .= '<br />';
+			$render .= (PHP_SAPI == 'cli') ? "\n" : '<br />';
 
-			$lastItem = $item;
+			$lastPoint = $point;
 		}
 
 		return $render;
 	}
 }
-

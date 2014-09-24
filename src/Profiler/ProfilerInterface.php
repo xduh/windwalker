@@ -8,7 +8,8 @@
 
 namespace Windwalker\Profiler;
 
-use Windwalker\Profiler\Item\ProfilerItemInterface;
+use Windwalker\Profiler\Point\ProfilerItemInterface;
+use Windwalker\Profiler\Point\ProfilerPointInterface;
 
 /**
  * Interface ProfilerInterface
@@ -40,16 +41,16 @@ interface ProfilerInterface
 	 *
 	 * @return  boolean  True if the profiler has marked the point, false otherwise.
 	 */
-	public function hasItem($name);
+	public function hasPoint($name);
 
 	/**
 	 * Get the point identified by the given name.
 	 *
 	 * @param   string  $name     The name of the point.
 	 *
-	 * @return  ProfilerItemInterface  The profile point or the default value.
+	 * @return  ProfilerPointInterface  The profile point or the default value.
 	 */
-	public function getItem($name);
+	public function getPoint($name);
 
 	/**
 	 * Get the elapsed time in seconds between the two points.
@@ -73,7 +74,7 @@ interface ProfilerInterface
 	 *
 	 * @throws  \LogicException  If the points were not marked.
 	 */
-	public function getMemoryBytesBetween($first, $second);
+	public function getMemoryBetween($first, $second);
 	/**
 	 * Get the memory peak in bytes during the profiler run.
 	 *
@@ -84,9 +85,9 @@ interface ProfilerInterface
 	/**
 	 * Get the points in this profiler (from the first to the last).
 	 *
-	 * @return  ProfilerItemInterface[]  An array of points in this profiler.
+	 * @return  ProfilerPointInterface[]  An array of points in this profiler.
 	 */
-	public function getItems();
+	public function getPoints();
 
 	/**
 	 * Render the profiler.

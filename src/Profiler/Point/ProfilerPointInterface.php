@@ -6,10 +6,14 @@
  * @license    GNU General Public License version 2 or later;
  */
 
-namespace Windwalker\Profiler\Item;
+namespace Windwalker\Profiler\Point;
 
-
-interface ProfilerItemInterface
+/**
+ * Interface ProfilerPointInterface
+ *
+ * @since  {DEPLOY_VERSION}
+ */
+interface ProfilerPointInterface
 {
 	/**
 	 * Get the name of this profile point.
@@ -24,7 +28,7 @@ interface ProfilerItemInterface
 	 *
 	 * @return  float  The time in seconds.
 	 */
-	public function getTiming();
+	public function getTime();
 
 	/**
 	 * Get the allocated amount of memory in bytes
@@ -36,4 +40,3 @@ interface ProfilerItemInterface
 	 */
 	public function getMemory($megaBytes = false);
 }
-

@@ -6,14 +6,14 @@
  * @license    GNU General Public License version 2 or later;
  */
 
-namespace Windwalker\Profiler\Item;
+namespace Windwalker\Profiler\Point;
 
 /**
  * Class ProfilerItem
  *
  * @since {DEPLOY_VERSION}
  */
-class ProfilerItem implements ProfilerItemInterface
+class Point implements ProfilerPointInterface
 {
 	/**
 	 * The profile point name.
@@ -28,7 +28,7 @@ class ProfilerItem implements ProfilerItemInterface
 	 *
 	 * @var  float
 	 */
-	protected $timing = null;
+	protected $time = null;
 
 	/**
 	 * The allocated amount of memory in bytes
@@ -48,7 +48,7 @@ class ProfilerItem implements ProfilerItemInterface
 	public function __construct($name, $timing = 0.0, $memory = 0)
 	{
 		$this->name = $name;
-		$this->timing = (float) $timing;
+		$this->time = (float) $timing;
 		$this->memory = (int) $memory;
 	}
 
@@ -68,9 +68,9 @@ class ProfilerItem implements ProfilerItemInterface
 	 *
 	 * @return  float  The time in seconds.
 	 */
-	public function getTiming()
+	public function getTime()
 	{
-		return $this->timing;
+		return $this->time;
 	}
 
 	/**
@@ -86,4 +86,3 @@ class ProfilerItem implements ProfilerItemInterface
 		return $megaBytes ? $this->memory / 1048576 : $this->memory;
 	}
 }
-

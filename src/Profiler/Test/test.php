@@ -35,7 +35,7 @@ $f2 = function()
 	Test::f2();
 };
 
-echo $benchmark->setTimeFold(\Windwalker\Profiler\Benchmark::SECOND)
+echo $benchmark->setTimeFormat(\Windwalker\Profiler\Benchmark::SECOND)
 	->addTask('test1', $f1)
 	->addTask('test2', $f2)
 	->run(1000)

@@ -16,7 +16,7 @@ namespace Windwalker\Profiler;
 class Benchmark
 {
 	const SECOND = 1;
-	const MILLISECOND = 1000;
+	const MILLI_SECOND = 1000;
 	const MICRO_SECOND = 1000000;
 
 	/**
@@ -59,7 +59,7 @@ class Benchmark
 	 *
 	 * @var integer
 	 */
-	protected $fold = 1;
+	protected $format = 1;
 
 	/**
 	 * Class init.
@@ -80,13 +80,13 @@ class Benchmark
 	/**
 	 * setTimeFormat
 	 *
-	 * @param int $fold
+	 * @param int $format
 	 *
 	 * @return  $this
 	 */
-	public function setTimeFold($fold = self::SECOND)
+	public function setTimeFormat($format = self::SECOND)
 	{
-		$this->fold = $fold;
+		$this->format = $format;
 
 		return $this;
 	}
@@ -119,13 +119,13 @@ class Benchmark
 	 *
 	 * @return  $this
 	 */
-	public function run($times = null)
+	public function execute($times = null)
 	{
 		$times = $times ? : $this->times;
 
 		foreach ($this->tasks as $name => $task)
 		{
-			$this->runTask($name, $task, $times);
+			$this->run($name, $task, $times);
 		}
 
 		return $this;
@@ -140,20 +140,20 @@ class Benchmark
 	 *
 	 * @return  $this
 	 */
-	protected function runTask($name, $callback, $times)
+	protected function run($name, $callback, $times)
 	{
 		$this->profiler->mark($name . '-start');
 
 		foreach (range(1, $times) as $row)
 		{
-			$callback();
+			call_user_func($callback);
 		}
 
 		$this->profiler->mark($name . '-end');
 
 		$time = $this->profiler->getTimeBetween($name . '-start', $name . '-end');
 
-		$time = $time * $this->fold;
+		$time = $time * $this->format;
 
 		$this->results[$name] = $time;
 
@@ -204,7 +204,7 @@ class Benchmark
 	 *
 	 * @return  string
 	 */
-	public function renderResult($name, $round = false)
+	public function renderOne($name, $round = false)
 	{
 		$result = $this->getResult($name);
 
@@ -213,9 +213,9 @@ class Benchmark
 			$result = round($result, $round);
 		}
 
-		switch ($this->fold)
+		switch ($this->format)
 		{
-			case static::MILLISECOND :
+			case static::MILLI_SECOND :
 				$unit = 'ms';
 				break;
 
@@ -241,7 +241,7 @@ class Benchmark
 	 *
 	 * @return  string
 	 */
-	public function renderResults($round = false, $sort = null, $html = false)
+	public function render($round = false, $sort = null, $html = false)
 	{
 		$output = array();
 
@@ -255,4 +255,3 @@ class Benchmark
 		return implode($output, $separator);
 	}
 }
- 

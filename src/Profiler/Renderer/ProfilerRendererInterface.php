@@ -8,11 +8,19 @@
 
 namespace Windwalker\Profiler\Renderer;
 
+use Windwalker\Profiler\ProfilerInterface;
+
 /**
  * Interface ProfilerRendererInterface
  */
 interface ProfilerRendererInterface
 {
-
+	/**
+	 * Render the profiler.
+	 *
+	 * @param   ProfilerInterface  $profiler  The profiler to render.
+	 *
+	 * @return  string  The rendered profiler.
+	 */
+	public function render(ProfilerInterface $profiler);
 }
-

@@ -8,8 +8,8 @@
 
 namespace Windwalker\Profiler;
 
-use Windwalker\Profiler\Item\ProfilerItem;
-use Windwalker\Profiler\Item\ProfilerItemInterface;
+use Windwalker\Profiler\Point\Point;
+use Windwalker\Profiler\Point\ProfilerPointInterface;
 use Windwalker\Profiler\Renderer\DefaultRenderer;
 use Windwalker\Profiler\Renderer\ProfilerRendererInterface;
 
@@ -18,7 +18,7 @@ use Windwalker\Profiler\Renderer\ProfilerRendererInterface;
  *
  * @since {DEPLOY_VERSION}
  */
-class Profiler implements ProfilerInterface
+class Profiler implements ProfilerInterface, \Countable
 {
 	/**
 	 * The name of the profiler.
@@ -34,9 +34,9 @@ class Profiler implements ProfilerInterface
 	 * It is used to quickly find a point
 	 * without having to traverse $points.
 	 *
-	 * @var  ProfilerItemInterface[]
+	 * @var  ProfilerPointInterface[]
 	 */
-	protected $items = array();
+	protected $points = array();
 
 	/**
 	 * A flag to see if we must get
@@ -82,58 +82,58 @@ class Profiler implements ProfilerInterface
 	 *
 	 * @param   string                     $name             The profiler name.
 	 * @param   ProfilerRendererInterface  $renderer         The renderer.
-	 * @param   ProfilerItemInterface[]    $items            An array of profile points.
+	 * @param   ProfilerPointInterface[]   $points           An array of profile points.
 	 * @param   boolean                    $memoryRealUsage  True to get the real memory usage.
 	 *
 	 * @throws  \InvalidArgumentException
 	 */
-	public function __construct($name, ProfilerRendererInterface $renderer = null, array $items = array(), $memoryRealUsage = false)
+	public function __construct($name, ProfilerRendererInterface $renderer = null, array $points = array(), $memoryRealUsage = false)
 	{
 		$this->name = $name;
 		$this->renderer = $renderer ? : new DefaultRenderer;
 
-		if (empty($items))
+		if (empty($points))
 		{
-			$this->items = array();
+			$this->points = array();
 		}
 
 		else
 		{
-			$this->setItems($items);
+			$this->setPoints($points);
 		}
 
 		$this->memoryRealUsage = (bool) $memoryRealUsage;
 	}
 
 	/**
-	 * setItem
+	 * set Point
 	 *
-	 * @param ProfilerItemInterface $item
+	 * @param ProfilerPointInterface $point
 	 *
 	 * @return  static
 	 *
 	 * @throws \InvalidArgumentException
 	 */
-	protected function setItem(ProfilerItemInterface $item)
+	protected function setPoint(ProfilerPointInterface $point)
 	{
-		if (!($item instanceof ProfilerItemInterface))
+		if (!($point instanceof ProfilerPointInterface))
 		{
-			throw new \InvalidArgumentException('One of the passed point does not implement ProfilerItemInterface.');
+			throw new \InvalidArgumentException('One of the passed point does not implement ProfilerPointInterface.');
 		}
 
-		if (isset($this->items[$item->getName()]))
+		if (isset($this->points[$point->getName()]))
 		{
 			throw new \InvalidArgumentException(
 				sprintf(
-					'The item %s already exists in the profiler %s.',
-					$item->getName(),
+					'The point %s already exists in the profiler %s.',
+					$point->getName(),
 					$this->name
 				)
 			);
 		}
 
 		// Add it in the lookup table.
-		$this->items[$item->getName()] = $item;
+		$this->points[$point->getName()] = $point;
 
 		return $this;
 	}
@@ -143,17 +143,17 @@ class Profiler implements ProfilerInterface
 	 * This function is called by the constructor when injecting an array of points
 	 * (mostly for testing purposes).
 	 *
-	 * @param   ProfilerItemInterface[]  $items  An array of profile points.
+	 * @param   ProfilerPointInterface[]  $points  An array of profile points.
 	 *
 	 * @return  void
 	 *
 	 * @throws  \InvalidArgumentException
 	 */
-	protected function setItems(array $items)
+	protected function setPoints(array $points)
 	{
-		foreach ($items as $item)
+		foreach ($points as $point)
 		{
-			$this->setItem($item);
+			$this->setPoint($point);
 		}
 	}
 
@@ -179,7 +179,7 @@ class Profiler implements ProfilerInterface
 	public function mark($name)
 	{
 		// If a point already exists with this name.
-		if (isset($this->items[$name]))
+		if (isset($this->points[$name]))
 		{
 			throw new \InvalidArgumentException(
 				sprintf(
@@ -198,21 +198,21 @@ class Profiler implements ProfilerInterface
 		$memoryBytes = memory_get_usage($this->memoryRealUsage);
 
 		// If this is the first point.
-		if (empty($this->items))
+		if (empty($this->points))
 		{
 			$this->startTimeStamp = $timeStamp;
 			$this->startMemoryBytes = $memoryBytes;
 		}
 
 		// Create the point.
-		$item = new ProfilerItem(
+		$point = new Point(
 			$name,
 			$timeStamp - $this->startTimeStamp,
 			$memoryBytes - $this->startMemoryBytes
 		);
 
 		// Store it.
-		$this->setItem($item);
+		$this->setPoint($point);
 
 		return $this;
 	}
@@ -224,9 +224,9 @@ class Profiler implements ProfilerInterface
 	 *
 	 * @return  boolean  True if the profiler has marked the point, false otherwise.
 	 */
-	public function hasItem($name)
+	public function hasPoint($name)
 	{
-		return isset($this->items[$name]);
+		return isset($this->points[$name]);
 	}
 
 	/**
@@ -234,13 +234,13 @@ class Profiler implements ProfilerInterface
 	 *
 	 * @param   string  $name     The name of the point.
 	 *
-	 * @return  ProfilerItemInterface|mixed  The profile point or the default value.
+	 * @return  ProfilerPointInterface|mixed  The profile point or the default value.
 	 */
-	public function getItem($name)
+	public function getPoint($name)
 	{
-		if (isset($this->items[$name]))
+		if (isset($this->points[$name]))
 		{
-			return $this->items[$name];
+			return $this->points[$name];
 		}
 
 		return null;
@@ -258,20 +258,20 @@ class Profiler implements ProfilerInterface
 	 */
 	public function getTimeBetween($first, $second)
 	{
-		if (!isset($this->items[$first]))
+		if (!isset($this->points[$first]))
 		{
 			throw new \LogicException(sprintf('The point %s was not marked in the profiler %s.', $first, $this->name));
 		}
 
-		if (!isset($this->items[$second]))
+		if (!isset($this->points[$second]))
 		{
 			throw new \LogicException(sprintf('The point %s was not marked in the profiler %s.', $second, $this->name));
 		}
 
-		$firstItem = $this->items[$first];
-		$secondItem = $this->items[$second];
+		$firstPoint = $this->points[$first];
+		$secondPoint = $this->points[$second];
 
-		return abs($secondItem->getTiming() - $firstItem->getTiming());
+		return abs($secondPoint->getTime() - $firstPoint->getTime());
 	}
 
 	/**
@@ -284,22 +284,22 @@ class Profiler implements ProfilerInterface
 	 *
 	 * @throws  \LogicException  If the points were not marked.
 	 */
-	public function getMemoryBytesBetween($first, $second)
+	public function getMemoryBetween($first, $second)
 	{
-		if (!isset($this->items[$first]))
+		if (!isset($this->points[$first]))
 		{
 			throw new \LogicException(sprintf('The point %s was not marked in the profiler %s.', $first, $this->name));
 		}
 
-		if (!isset($this->items[$second]))
+		if (!isset($this->points[$second]))
 		{
 			throw new \LogicException(sprintf('The point %s was not marked in the profiler %s.', $second, $this->name));
 		}
 
-		$firstItem = $this->items[$first];
-		$secondItem = $this->items[$second];
+		$firstPoint = $this->points[$first];
+		$secondPoint = $this->points[$second];
 
-		return abs($secondItem->getMemory() - $firstItem->getMemory());
+		return abs($secondPoint->getMemory() - $firstPoint->getMemory());
 	}
 
 	/**
@@ -313,13 +313,23 @@ class Profiler implements ProfilerInterface
 	}
 
 	/**
+	 * Method to get property MemoryRealUsage
+	 *
+	 * @return  boolean
+	 */
+	public function getMemoryRealUsage()
+	{
+		return $this->memoryRealUsage;
+	}
+
+	/**
 	 * Get the points in this profiler (from the first to the last).
 	 *
-	 * @return  ProfilerItemInterface[]  An array of points in this profiler.
+	 * @return  ProfilerPointInterface[]  An array of points in this profiler.
 	 */
-	public function getItems()
+	public function getPoints()
 	{
-		return $this->items;
+		return $this->points;
 	}
 
 	/**
@@ -373,7 +383,7 @@ class Profiler implements ProfilerInterface
 	 */
 	public function getIterator()
 	{
-		return new \ArrayIterator($this->items);
+		return new \ArrayIterator($this->points);
 	}
 
 	/**
@@ -383,7 +393,6 @@ class Profiler implements ProfilerInterface
 	 */
 	public function count()
 	{
-		return count($this->items);
+		return count($this->points);
 	}
 }
-

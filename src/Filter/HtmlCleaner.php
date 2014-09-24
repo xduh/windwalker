@@ -20,7 +20,7 @@ class HtmlCleaner
 {
 	const USE_WHITE_LIST = 0;
 
-	const USE_BACK_LIST = 1;
+	const USE_BLACK_LIST = 1;
 
 	const ONLY_ESSENTIAL = 0;
 
@@ -120,7 +120,7 @@ class HtmlCleaner
 	 *
 	 * @since   {DEPLOY_VERSION}
 	 */
-	public function __construct($tagsArray = array(), $attrArray = array(), $tagsMethod = self::USE_BACK_LIST, $attrMethod = self::USE_BACK_LIST, $xssAuto = 1)
+	public function __construct($tagsArray = array(), $attrArray = array(), $tagsMethod = self::USE_BLACK_LIST, $attrMethod = self::USE_BLACK_LIST, $xssAuto = 1)
 	{
 		// Make sure user defined arrays are in lowercase
 		$tagsArray = array_map('strtolower', (array) $tagsArray);

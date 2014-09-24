@@ -65,6 +65,13 @@ class Benchmark
 	protected $format = 1;
 
 	/**
+	 * Property renderHandler.
+	 *
+	 * @var \Closure
+	 */
+	protected $renderOneHandler;
+
+	/**
 	 * Class init.
 	 *
 	 * @param string   $name
@@ -211,6 +218,13 @@ class Benchmark
 	{
 		$result = $this->getResult($name);
 
+		if ($this->renderOneHandler instanceof \Closure)
+		{
+			$closure = $this->renderOneHandler;
+
+			return $closure($name, $result, $round, $this->format);
+		}
+
 		if ($round !== false)
 		{
 			$result = round($result, $round);
@@ -223,12 +237,12 @@ class Benchmark
 				break;
 
 			case static::MICRO_SECOND :
-				$unit = 'micro seconds';
+				$unit = 'μs';
 				break;
 
 			case static::SECOND :
 			default :
-				$unit = 'sec';
+				$unit = 's';
 				break;
 		}
 
@@ -278,6 +292,30 @@ class Benchmark
 	public function setTimes($times)
 	{
 		$this->times = $times;
+
+		return $this;
+	}
+
+	/**
+	 * Method to get property RenderHandler
+	 *
+	 * @return  \Closure
+	 */
+	public function getRenderOneHandler()
+	{
+		return $this->renderOneHandler;
+	}
+
+	/**
+	 * Method to set property renderHandler
+	 *
+	 * @param   \Closure $renderOneHandler
+	 *
+	 * @return  static  Return self to support chaining.
+	 */
+	public function setRenderOneHandler(\Closure $renderOneHandler)
+	{
+		$this->renderOneHandler = $renderOneHandler;
 
 		return $this;
 	}

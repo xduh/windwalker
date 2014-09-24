@@ -117,6 +117,17 @@ class BenchmarkTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals(array('md5', 'sha1'), array_keys($results));
 
 		$this->assertEquals(10, $count);
+
+		$this->instance->setRenderOneHandler(
+			function($name, $result, $round, $format)
+			{
+				return $name . ':123123';
+			}
+		);
+
+		$results = $this->instance->render(true, Benchmark::SORT_DESC);
+
+		$this->assertEquals("md5:123123\nsha1:123123", $results);
 	}
 
 	/**

@@ -16,6 +16,58 @@ namespace Windwalker\Crypt;
 class CryptHelper
 {
 	/**
+	 * limitInteger
+	 *
+	 * @param integer $int
+	 * @param integer $min
+	 * @param integer $max
+	 *
+	 * @return  null
+	 */
+	public static function limitInteger($int, $min = null, $max = null)
+	{
+		$int = (int) $int;
+
+		if ($min !== null && $int < $min)
+		{
+			$int = $min;
+		}
+
+		if ($max !== null && $int > $max)
+		{
+			$int = $max;
+		}
+
+		return (int) $int;
+	}
+
+	/**
+	 * repeatToLength
+	 *
+	 * @param string  $string
+	 * @param integer $length
+	 * @param bool    $cut
+	 *
+	 * @return  string
+	 */
+	public static function repeatToLength($string, $length, $cut = false)
+	{
+		if (strlen($string) >= $length)
+		{
+			return $string;
+		}
+
+		$string = str_repeat($string, ceil($length / strlen($string)));
+
+		if ($cut)
+		{
+			$string = substr($string, 0, $length);
+		}
+
+		return $string;
+	}
+
+	/**
 	 * Generate random bytes.
 	 *
 	 * @param   integer  $length  Length of the random data to generate

@@ -11,7 +11,6 @@
 		}
 	],
 	"require": {
-		"joomla/database" : "~1.0@stable",
 		"psr/log" : "1.*@stable"
 	},
 	"require-dev": {
@@ -25,8 +24,7 @@
 		"illuminate/view" : "4.1.*",
 		"mustache/mustache": "2.*",
 
-		"joomla/session" : "1.*",
-		"joomla/event" : "1.*@stable"
+		"joomla/database" : "~1.0@stable"
 	},
 	"suggest": {
 		"symfony/yaml": "Install 2.* if you require YAML support."

@@ -15,6 +15,14 @@ namespace Windwalker\Crypt;
  */
 class Password
 {
+	const MD5 = 3;
+
+	const BLOWFISH = 4;
+
+	const SHA256 = 5;
+
+	const SHA512 = 6;
+
 	/**
 	 * Property salt.
 	 *
@@ -45,25 +53,43 @@ class Password
 	 * create
 	 *
 	 * @param string $password
+	 * @param int    $type
 	 *
 	 * @return  string
 	 */
-	public function create($password)
+	public function create($password, $type = self::BLOWFISH)
 	{
-		$salt = $this->salt ? : CryptHelper::genRandomBytes(16);
+		$salt = $this->salt ? : str_replace('+', '.', base64_encode(CryptHelper::genRandomBytes(64)));
 
-		$salt64 = substr(str_replace('+', '.', base64_encode($salt)), 0, 22);
-
-		if (version_compare(PHP_VERSION, '5.3.7') >= 0)
+		switch ($type)
 		{
-			$prefix = '$2y$';
-		}
-		else
-		{
-			$prefix = '$2a$';
+			case static::MD5:
+				$salt = '$1$' . $salt . '$';
+				break;
+
+			case static::SHA256:
+				$cost = ($this->cost < 1000) ? 1000 : $this->cost;
+
+				$salt = '$5$rounds=' . $cost . '$' . $salt . '$';
+				break;
+
+			case static::SHA512:
+				$cost = ($this->cost < 1000) ? 1000 : $this->cost;
+
+				$salt = '$6$rounds=' . $cost . '$' . $salt . '$';
+				break;
+
+			default:
+			case static::BLOWFISH:
+				$prefix = (version_compare(PHP_VERSION, '5.3.7') >= 0) ? '$2y$' : '$2a$';
+
+				$salt = CryptHelper::repeatToLength($salt, 21);
+
+				$salt = $prefix . CryptHelper::limitInteger($this->cost, 4, 31) . '$' . $salt . '$';
+				break;
 		}
 
-		return crypt($password, $prefix . $this->cost . '$' . $salt64);
+		return crypt($password, $salt);
 	}
 
 	/**
@@ -76,13 +102,6 @@ class Password
 	 */
 	public function verify($password, $hash)
 	{
-		$prefix = substr($hash, 0, 4);
-
-		if ($prefix != '$2y$' && $prefix != '$2a$')
-		{
-			return false;
-		}
-
 		return ($hash === crypt($password, $hash));
 	}
 
@@ -130,16 +149,6 @@ class Password
 	 */
 	public function setCost($cost)
 	{
-		if (!empty($cost))
-		{
-			$cost = (int) $cost;
-
-			if ($cost < 4 || $cost > 31)
-			{
-				throw new \InvalidArgumentException('The cost must be in range 04-31');
-			}
-		}
-
 		$this->cost = $cost;
 
 		return $this;

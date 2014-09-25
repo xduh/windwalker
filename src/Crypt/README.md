@@ -5,3 +5,7 @@ This is the subtree split of [Windwalker Framework](https://github.com/ventoviro
 This package has completed and prepare to use, but the document has work in process.
 Please see [Test](Test) to learn how to use and go to [Packagist/windwalker](https://packagist.org/packages/windwalker/)
 to find all the packages.
+
+## Mcrypt
+
+Install Mcrypt on OSX: http://topicdesk.com/downloads/mcrypt/mcrypt-download

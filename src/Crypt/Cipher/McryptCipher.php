@@ -53,9 +53,9 @@ abstract class McryptCipher implements CipherInterface
 	/**
 	 * Method to decrypt a data string.
 	 *
-	 * @param   string  $data     The encrypted string to decrypt.
-	 * @param   string  $private  The private key.
-	 * @param   string  $public   The public key.
+	 * @param   string  $data  The encrypted string to decrypt.
+	 * @param   string  $key   The private key.
+	 * @param   string  $iv    The public key.
 	 *
 	 * @internal param \Windwalker\Crypt\KeyInterface $key The key object to use for decryption.
 	 *
@@ -63,13 +63,13 @@ abstract class McryptCipher implements CipherInterface
 	 *
 	 * @since    {DEPLOY_VERSION}
 	 */
-	public function decrypt($data, $private = null, $public = null)
+	public function decrypt($data, $key = null, $iv = null)
 	{
-		if (!$public)
+		if (!$iv)
 		{
 			$ivSize = $this->getIVSize();
 
-			$public = substr($data, 0, $ivSize);
+			$iv = substr($data, 0, $ivSize);
 
 			$data = substr($data, $ivSize);
 		}
@@ -77,14 +77,14 @@ abstract class McryptCipher implements CipherInterface
 		{
 			$ivSize = $this->getIVSize();
 
-			if (substr($data, 0, $ivSize) === $public)
+			if (substr($data, 0, $ivSize) === $iv)
 			{
 				$data = substr($data, $ivSize);
 			}
 		}
 
 		// Decrypt the data.
-		$decrypted = trim(mcrypt_decrypt($this->type, $private, $data, $this->mode, $public));
+		$decrypted = trim(mcrypt_decrypt($this->type, $key, $data, $this->mode, $iv));
 
 		return $decrypted;
 	}
@@ -92,23 +92,23 @@ abstract class McryptCipher implements CipherInterface
 	/**
 	 * Method to encrypt a data string.
 	 *
-	 * @param   string  $data     The data string to encrypt.
-	 * @param   string  $private  The private key.
-	 * @param   string  $public   The public key.
+	 * @param   string  $data  The data string to encrypt.
+	 * @param   string  $key   The private key.
+	 * @param   string  $iv    The public key.
 	 *
 	 * @return  string  The encrypted data string.
 	 *
 	 * @since   {DEPLOY_VERSION}
 	 * @throws  \InvalidArgumentException
 	 */
-	public function encrypt($data, $private = null, $public = null)
+	public function encrypt($data, $key = null, $iv = null)
 	{
-		$public = $this->getIVKey();
+		$iv = $iv ? : $this->getIVKey();
 
 		// Encrypt the data.
-		$encrypted = mcrypt_encrypt($this->type, $private, $data, $this->mode, $public);
+		$encrypted = mcrypt_encrypt($this->type, $key, $data, $this->mode, $iv);
 
-		return $public . $encrypted;
+		return $iv . $encrypted;
 	}
 
 	/**
@@ -138,4 +138,3 @@ abstract class McryptCipher implements CipherInterface
 		return mcrypt_get_iv_size($this->type, $this->mode);
 	}
 }
- 

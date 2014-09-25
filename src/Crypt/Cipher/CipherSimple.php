@@ -13,42 +13,50 @@ namespace Windwalker\Crypt\Cipher;
  * 
  * @since  {DEPLOY_VERSION}
  */
-class SimpleCipher implements CipherInterface
+class CipherSimple implements CipherInterface
 {
 	const DEFAULT_RANDOM_BYTE_LENGTH = 256;
 
 	/**
 	 * Method to decrypt a data string.
 	 *
-	 * @param   string $data    The encrypted string to decrypt.
-	 * @param   string $private The private key.
-	 * @param   string $public  The public key.
+	 * @param   string $data  The encrypted string to decrypt.
+	 * @param   string $key   The private key.
+	 * @param   string $iv    The public key.
 	 *
 	 * @return  string  The decrypted data string.
 	 *
 	 * @since    {DEPLOY_VERSION}
 	 */
-	public function decrypt($data, $private = null, $public = null)
+	public function decrypt($data, $key = null, $iv = null)
 	{
-		if (!$public)
+		if (!$iv)
 		{
-			$public = substr($data, 0, static::DEFAULT_RANDOM_BYTE_LENGTH);
+			$iv = substr($data, 0, static::DEFAULT_RANDOM_BYTE_LENGTH);
 
 			$data = substr($data, static::DEFAULT_RANDOM_BYTE_LENGTH);
 		}
 		else
 		{
-			if (substr($data, 0, strlen($public)) === $public)
+			if (substr($data, 0, strlen($iv)) === $iv)
 			{
-				$data = substr($data, strlen($public));
+				$data = substr($data, strlen($iv));
 			}
 		}
 
-		$key = sha1($public . $private);
+		$key = sha1($iv . $key);
 
 		return $this->doDecrypt($data, $key);
 	}
 
+	/**
+	 * doDecrypt
+	 *
+	 * @param   string  $data
+	 * @param   string  $key
+	 *
+	 * @return  string
+	 */
 	protected function doDecrypt($data, $key)
 	{
 		$decrypted = '';
@@ -71,22 +79,22 @@ class SimpleCipher implements CipherInterface
 	/**
 	 * Method to encrypt a data string.
 	 *
-	 * @param   string $data    The data string to encrypt.
-	 * @param   string $private The private key.
-	 * @param   string $public  The public key.
+	 * @param   string $data  The data string to encrypt.
+	 * @param   string $key   The private key.
+	 * @param   string $iv    The public key.
 	 *
 	 * @return  string  The encrypted data string.
 	 *
 	 * @since   {DEPLOY_VERSION}
 	 * @throws  \InvalidArgumentException
 	 */
-	public function encrypt($data, $private = null, $public = null)
+	public function encrypt($data, $key = null, $iv = null)
 	{
-		$public = $public ? : $this->getRandomKey(static::DEFAULT_RANDOM_BYTE_LENGTH);
+		$iv = $iv ? : $this->getRandomKey(static::DEFAULT_RANDOM_BYTE_LENGTH);
 
-		$key = sha1($public . $private);
+		$key = sha1($iv . $key);
 
-		return $public . $this->doEncrypt($data, $key);
+		return $iv . $this->doEncrypt($data, $key);
 	}
 
 	/**

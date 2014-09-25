@@ -29,4 +29,3 @@ class Cipher3DES extends McryptCipher
 	 */
 	protected $mode = MCRYPT_MODE_CBC;
 }
- 

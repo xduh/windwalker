@@ -29,31 +29,31 @@ class Crypt
 	 *
 	 * @var  string
 	 */
-	protected $public;
+	protected $iv;
 
 	/**
 	 * Property private.
 	 *
 	 * @var  null|string
 	 */
-	protected $private;
+	protected $key;
 
 	/**
 	 * Class init.
 	 *
 	 * @param CipherInterface $cipher
-	 * @param string          $private
-	 * @param string          $public
+	 * @param string          $key
+	 * @param string          $iv
 	 *
 	 * @throws \InvalidArgumentException
 	 */
-	public function __construct(CipherInterface $cipher, $private = null, $public = null)
+	public function __construct(CipherInterface $cipher, $key = null, $iv = null)
 	{
 		$this->cipher = $cipher;
-		$this->public = $public;
-		$this->private  = $private;
+		$this->iv = $iv;
+		$this->key = $key;
 
-		if (!is_string($this->private))
+		if (!is_string($this->key) && $this->key !== null)
 		{
 			throw new \InvalidArgumentException('Public key should be string');
 		}
@@ -63,17 +63,17 @@ class Crypt
 	 * encrypt
 	 *
 	 * @param string $string
-	 * @param string $private
-	 * @param string $public
+	 * @param string $key
+	 * @param string $iv
 	 *
 	 * @return  string
 	 */
-	public function encrypt($string, $private = null, $public = null)
+	public function encrypt($string, $key = null, $iv = null)
 	{
-		$private = $private ? : $this->getPrivate();
-		$public  = $public  ? : $this->getPublic();
+		$key = $key ? : $this->getKey();
+		$iv  = $iv  ? : $this->getIv();
 
-		$encrypted = $this->cipher->encrypt($string, $private, $public);
+		$encrypted = $this->cipher->encrypt($string, $key, $iv);
 
 		return base64_encode($encrypted);
 	}
@@ -82,34 +82,34 @@ class Crypt
 	 * decrypt
 	 *
 	 * @param string $string
-	 * @param string $private
-	 * @param string $public
+	 * @param string $key
+	 * @param string $iv
 	 *
 	 * @return  string
 	 */
-	public function decrypt($string, $private = null, $public = null)
+	public function decrypt($string, $key = null, $iv = null)
 	{
 		$string = base64_decode(str_replace(' ', '+', $string));
 
-		$private = $private ? : $this->getPrivate();
-		$public  = $public  ? : $this->getPublic();
+		$key = $key ? : $this->getKey();
+		$iv  = $iv  ? : $this->getIv();
 
-		return $this->cipher->decrypt($string, $private, $public);
+		return $this->cipher->decrypt($string, $key, $iv);
 	}
 
 	/**
 	 * match
 	 *
-	 * @param string $hash
 	 * @param string $string
-	 * @param string $private
-	 * @param string $public
+	 * @param string $hash
+	 * @param string $key
+	 * @param string $iv
 	 *
 	 * @return  boolean
 	 */
-	public function verify($hash, $string, $private = null, $public = null)
+	public function verify($string, $hash, $key = null, $iv = null)
 	{
-		return ($string === $this->decrypt($hash, $private, $public));
+		return ($string === $this->decrypt($hash, $key, $iv));
 	}
 
 	/**
@@ -117,21 +117,21 @@ class Crypt
 	 *
 	 * @return  string
 	 */
-	public function getPublic()
+	public function getIV()
 	{
-		return $this->public;
+		return $this->iv;
 	}
 
 	/**
 	 * Method to set property public
 	 *
-	 * @param   string $public
+	 * @param   string $iv
 	 *
 	 * @return  static  Return self to support chaining.
 	 */
-	public function setPublic($public)
+	public function setIV($iv)
 	{
-		$this->public = $public;
+		$this->iv = $iv;
 
 		return $this;
 	}
@@ -141,31 +141,31 @@ class Crypt
 	 *
 	 * @return  null|string
 	 */
-	public function getPrivate()
+	public function getKey()
 	{
-		if (!$this->private)
+		if (!$this->key)
 		{
-			$this->private = md5('To be, or not to be, that is the question.');
+			$this->key = md5('To be, or not to be, that is the question.');
 		}
 
-		return $this->private;
+		return $this->key;
 	}
 
 	/**
 	 * Method to set property private
 	 *
-	 * @param   null|string $private
+	 * @param   null|string $key
 	 *
 	 * @throws \InvalidArgumentException
 	 * @return  static  Return self to support chaining.
 	 */
-	public function setPrivate($private)
+	public function setKey($key)
 	{
-		$this->private = $private;
+		$this->key = $key;
 
-		if (!is_string($this->private))
+		if (!is_string($this->key) && $this->key !== null)
 		{
-			throw new \InvalidArgumentException('Public key should be string');
+			throw new \InvalidArgumentException('Key should be string');
 		}
 
 		return $this;

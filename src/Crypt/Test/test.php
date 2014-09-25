@@ -8,11 +8,11 @@
 
 include_once __DIR__ . '/../../../vendor/autoload.php';
 
-$crypt = new \Windwalker\Crypt\Crypt(new \Windwalker\Crypt\Cipher\BlowfishCipher, 'asad', 'Ohhh');
+$crypt = new \Windwalker\Crypt\Crypt(new \Windwalker\Crypt\Cipher\CipherBlowfish);
 
 echo $pass = $crypt->encrypt('Windwalker');
 echo "\n\n";
 
-$crypt = new \Windwalker\Crypt\Crypt(new \Windwalker\Crypt\Cipher\BlowfishCipher, 'asad');
+$crypt = new \Windwalker\Crypt\Crypt(new \Windwalker\Crypt\Cipher\CipherBlowfish);
 
 echo $crypt->decrypt($pass);

@@ -66,7 +66,7 @@ class PasswordTest extends \PHPUnit_Framework_TestCase
 		// Use default
 		$password = new Password;
 
-		$this->assertTrue($password->verify('windwalker', $pass), $password->create('windwalker'));
+		$this->assertTrue($password->verify('windwalker', $password->create('windwalker')));
 	}
 
 	/**
@@ -101,7 +101,7 @@ class PasswordTest extends \PHPUnit_Framework_TestCase
 		// Use default
 		$password = new Password;
 
-		$this->assertTrue($password->verify('windwalker', $pass), $password->create('windwalker'));
+		$this->assertTrue($password->verify('windwalker', $password->create('windwalker')));
 	}
 
 	/**
@@ -136,7 +136,7 @@ class PasswordTest extends \PHPUnit_Framework_TestCase
 		// Use default
 		$password = new Password;
 
-		$this->assertTrue($password->verify('windwalker', $pass), $password->create('windwalker'));
+		$this->assertTrue($password->verify('windwalker', $password->create('windwalker')));
 	}
 
 	/**
@@ -162,7 +162,7 @@ class PasswordTest extends \PHPUnit_Framework_TestCase
 		// Use default
 		$password = new Password;
 
-		$this->assertTrue($password->verify('windwalker', $pass), $password->create('windwalker'));
+		$this->assertTrue($password->verify('windwalker', $password->create('windwalker')));
 	}
 
 	/**

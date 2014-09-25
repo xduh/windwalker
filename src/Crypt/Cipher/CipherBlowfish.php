@@ -9,18 +9,18 @@
 namespace Windwalker\Crypt\Cipher;
 
 /**
- * The Rijndael256 class.
+ * The BlowfishChipher class.
  * 
  * @since  {DEPLOY_VERSION}
  */
-class Rijndael256 extends McryptCipher
+class CipherBlowfish extends McryptCipher
 {
 	/**
 	 * @var    integer  The mcrypt cipher constant.
 	 * @see    http://www.php.net/manual/en/mcrypt.ciphers.php
 	 * @since  {DEPLOY_VERSION}
 	 */
-	protected $type = MCRYPT_RIJNDAEL_256;
+	protected $type = MCRYPT_BLOWFISH;
 
 	/**
 	 * @var    integer  The mcrypt block cipher mode.
@@ -29,4 +29,3 @@ class Rijndael256 extends McryptCipher
 	 */
 	protected $mode = MCRYPT_MODE_CBC;
 }
- 

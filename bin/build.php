@@ -58,7 +58,7 @@ class Build extends AbstractCliApplication
 		'compare'    => 'Compare',
 		'console'    => 'Console',
 		'controller' => 'Controller',
-		// 'crypt'      => 'Crypt',
+		'crypt'      => 'Crypt',
 		'data'       => 'Data',
 		'database'   => 'Database',
 		'datamapper' => 'DataMapper',

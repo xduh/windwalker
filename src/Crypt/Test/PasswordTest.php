@@ -32,7 +32,7 @@ class PasswordTest extends \PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
-		$this->instance = new Password(10, 'sakura');
+		$this->instance = new Password(Password::BLOWFISH, 10, 'sakura');
 	}
 
 	/**
@@ -55,7 +55,9 @@ class PasswordTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testCreateMd5()
 	{
-		$pass = $this->instance->create('windwalker', Password::MD5);
+		$this->instance->setType(Password::MD5);
+
+		$pass = $this->instance->create('windwalker');
 
 		$this->assertEquals(crypt('windwalker', '$1$sakura$'), $pass);
 
@@ -64,7 +66,7 @@ class PasswordTest extends \PHPUnit_Framework_TestCase
 		// Use default
 		$password = new Password;
 
-		$this->assertTrue($password->verify('windwalker', $pass), $password->create('windwalker', Password::MD5));
+		$this->assertTrue($password->verify('windwalker', $pass), $password->create('windwalker'));
 	}
 
 	/**
@@ -77,14 +79,15 @@ class PasswordTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testCreateSha256()
 	{
+		$this->instance->setType(Password::SHA256);
+
 		$this->instance->setCost(5000);
 
-		$pass = $this->instance->create('windwalker', Password::SHA256);
+		$pass = $this->instance->create('windwalker');
 
 		$this->assertEquals(crypt('windwalker', '$5$rounds=5000$sakura$'), $pass);
 
 		$this->assertTrue($this->instance->verify('windwalker', $pass));
-
 
 		// Cost less than 1000 will be 1000
 		$this->instance->setCost(125);
@@ -98,7 +101,7 @@ class PasswordTest extends \PHPUnit_Framework_TestCase
 		// Use default
 		$password = new Password;
 
-		$this->assertTrue($password->verify('windwalker', $pass), $password->create('windwalker', Password::SHA256));
+		$this->assertTrue($password->verify('windwalker', $pass), $password->create('windwalker'));
 	}
 
 	/**
@@ -111,19 +114,20 @@ class PasswordTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testCreateSha512()
 	{
+		$this->instance->setType(Password::SHA512);
+
 		$this->instance->setCost(5000);
 
-		$pass = $this->instance->create('windwalker', Password::SHA512);
+		$pass = $this->instance->create('windwalker');
 
 		$this->assertEquals(crypt('windwalker', '$6$rounds=5000$sakura$'), $pass);
 
 		$this->assertTrue($this->instance->verify('windwalker', $pass));
 
-
 		// Cost less than 1000 will be 1000
 		$this->instance->setCost(125);
 
-		$pass = $this->instance->create('windwalker', Password::SHA512);
+		$pass = $this->instance->create('windwalker');
 
 		$this->assertEquals(crypt('windwalker', '$6$rounds=1000$sakura$'), $pass);
 
@@ -132,7 +136,7 @@ class PasswordTest extends \PHPUnit_Framework_TestCase
 		// Use default
 		$password = new Password;
 
-		$this->assertTrue($password->verify('windwalker', $pass), $password->create('windwalker', Password::SHA512));
+		$this->assertTrue($password->verify('windwalker', $pass), $password->create('windwalker'));
 	}
 
 	/**
@@ -145,7 +149,9 @@ class PasswordTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testCreateBlowfish()
 	{
-		$pass = $this->instance->create('windwalker', Password::BLOWFISH);
+		$this->instance->setType(Password::BLOWFISH);
+
+		$pass = $this->instance->create('windwalker');
 
 		$prefix = (version_compare(PHP_VERSION, '5.3.7') >= 0) ? '$2y$' : '$2a$';
 
@@ -156,7 +162,7 @@ class PasswordTest extends \PHPUnit_Framework_TestCase
 		// Use default
 		$password = new Password;
 
-		$this->assertTrue($password->verify('windwalker', $pass), $password->create('windwalker', Password::BLOWFISH));
+		$this->assertTrue($password->verify('windwalker', $pass), $password->create('windwalker'));
 	}
 
 	/**

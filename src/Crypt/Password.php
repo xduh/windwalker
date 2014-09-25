@@ -38,43 +38,51 @@ class Password
 	protected $cost;
 
 	/**
+	 * Property type.
+	 *
+	 * @var  int
+	 */
+	protected $type;
+
+	/**
 	 * Constructor.
 	 *
+	 * @param int    $type
 	 * @param int    $cost
 	 * @param string $salt
 	 */
-	public function __construct($cost = 10, $salt = null)
+	public function __construct($type = self::BLOWFISH, $cost = 10, $salt = null)
 	{
 		$this->setSalt($salt);
 		$this->setCost($cost);
+		$this->type = $type;
 	}
 
 	/**
 	 * create
 	 *
 	 * @param string $password
-	 * @param int    $type
 	 *
 	 * @return  string
 	 */
-	public function create($password, $type = self::BLOWFISH)
+	public function create($password)
 	{
 		$salt = $this->salt ? : str_replace('+', '.', base64_encode(CryptHelper::genRandomBytes(64)));
 
-		switch ($type)
+		switch ($this->type)
 		{
 			case static::MD5:
 				$salt = '$1$' . $salt . '$';
 				break;
 
 			case static::SHA256:
-				$cost = ($this->cost < 1000) ? 1000 : $this->cost;
+				$cost = CryptHelper::limitInteger($this->cost, 1000);
 
 				$salt = '$5$rounds=' . $cost . '$' . $salt . '$';
 				break;
 
 			case static::SHA512:
-				$cost = ($this->cost < 1000) ? 1000 : $this->cost;
+				$cost = CryptHelper::limitInteger($this->cost, 1000);
 
 				$salt = '$6$rounds=' . $cost . '$' . $salt . '$';
 				break;
@@ -150,6 +158,30 @@ class Password
 	public function setCost($cost)
 	{
 		$this->cost = $cost;
+
+		return $this;
+	}
+
+	/**
+	 * Method to get property Type
+	 *
+	 * @return  int
+	 */
+	public function getType()
+	{
+		return $this->type;
+	}
+
+	/**
+	 * Method to set property type
+	 *
+	 * @param   int $type
+	 *
+	 * @return  static  Return self to support chaining.
+	 */
+	public function setType($type)
+	{
+		$this->type = $type;
 
 		return $this;
 	}
